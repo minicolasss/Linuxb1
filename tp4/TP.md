@@ -294,7 +294,9 @@ public (active)
 
 2. **Bloquer des IP suspectes** :
    - À l’aide des logs d’audit et des connexions réseau, bloquez les adresses IP malveillantes identifiées.
-
+```zsh
+firewall-cmd --add-rich-rule="rule family=ipv4 source address=A.B.C.D reject" --permanent
+```
 3. **Restreindre SSH à un sous-réseau spécifique** :
    - Limitez l’accès SSH à votre réseau local uniquement (par exemple, 192.168.x.x).
 ```zsh
