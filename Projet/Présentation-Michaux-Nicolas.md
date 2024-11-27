@@ -27,6 +27,6 @@ Je veux aussi pourquoi stocker des fichiers quand je veux et d'où je veux et de
 
 ## en résumé 
 
-Le projet consisterait à monter un serveur perso avec Proxmox.  
+**_Le projet consisterait à monter un serveur perso avec Proxmox.  
 Et de pouvoir utiliser ce serveur comme VPN et gestionnaire de mot de passe.  
-De plus, les connexions SSH seraient sécurisées par des clés, un pare-feu de qualité et un firewall de qualiter et un fail2ban.  
+De plus, les connexions SSH seraient sécurisées par des clés, un pare-feu de qualité et un firewall de qualiter et un fail2ban._**
