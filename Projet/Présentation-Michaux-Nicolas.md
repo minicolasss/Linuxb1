@@ -11,6 +11,9 @@ Je veux aussi pourquoi stocker des fichiers quand je veux et d'où je veux et de
 
 ## Le objetif
 
+![proxmox](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.imgflip.com%2F7v07a3.jpg&f=1&nofb=1&ipt=077ae12c2c4f0dc118288223efb1c079e7dad4c3f878347f0ec4de7aa6125566&ipo=images) 
+
+
 -installer Proxmox  
 -réaliser des conteneurs  
 -réaliser un VPN  
