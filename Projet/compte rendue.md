@@ -1,22 +1,27 @@
 # Compte rendue
 
 ## Somaire
+1. Ajout d'un utilisateur
+2. Suppression de la connexion SSH root
+3. Changement du mot de passe root
+4. Utilisation des clés SSH
 
-## ajout utilisateur
+---
+### 1. Ajout d'un utilisateur
 
 
-```
+```zsh
 adduser nico
 
 root@hv1-michaux:~# usermod -aG sudo nico
 
 ```
 
-mot de passe de l'user en mp discord si tu veux. car tu peut comprendre que je ne le mete pas là :)
+Mot de passe de l'utilisateur en MP Discord si tu veux. car tu peux comprendre que je ne le mets pas là :)
 
-## suppretion de la connection ssh root
+### 2. Suppression de la connexion SSH root
 
-```
+```zsh
 root@hv1-michaux:~# nano /etc/ssh/sshd_config
 
 ...
@@ -30,21 +35,22 @@ PermitRootLogin no
 root@hv1-michaux:~# /etc/init.d/ssh restart
 ```
 
-mientement les connection ssh avec root ne marche plus. mientement il faut ce co avec user nico    
+Maintenant, les connexions SSH avec root ne marchent plus. maintenant il faut se co avec l'utilisateur Nico
 
-changement de mot de passe de root
+### 3. Changement du mot de passe root
 
-```
+```zsh
 root@hv1-michaux:~# passwd
 
 csGOleGOat41
 
 ```
 
-## les clef ssh enfin
+### 4. Utilisation des clés SSH
 
 
-```
+![clef](https://media.tenor.com/3r0eT--shu0AAAAM/ewan-mewing.gif)
+```zsh
 nico@hv1-michaux:~$ ssh-keygen
 
 
@@ -57,4 +63,4 @@ nico@hv1-michaux:~$ ssh-keygen
 
 ```
 
-mientement la connection par clef marche.
+La connexion SSH par clé fonctionne désormais.
