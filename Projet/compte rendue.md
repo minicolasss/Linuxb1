@@ -40,3 +40,21 @@ root@hv1-michaux:~# passwd
 csGOleGOat41
 
 ```
+
+## les clef ssh enfin
+
+
+```
+nico@hv1-michaux:~$ ssh-keygen
+
+
+┌─[✗]─[nico@parrot]─[~]
+└──╼ $ssh-keygen
+
+
+┌─[nico@parrot]─[~]
+└──╼ $ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2222 nico@wilfart.fr
+
+```
+
+mientement la connection par clef marche.
