@@ -5,7 +5,8 @@
 2. Suppression de la connexion SSH root
 3. Changement du mot de passe root
 4. Utilisation des clés SSH
-
+5. Ajout d'une user proxmox
+6. allocation de l'espace
 ---
 ### 1. Ajout d'un utilisateur
 
@@ -64,3 +65,20 @@ nico@hv1-michaux:~$ ssh-keygen
 ```
 
 La connexion SSH par clé fonctionne désormais.
+
+### 5. Ajout d'une user proxmox
+
+```zsh
+root@hv1-michaux:/home/nico# nano /etc/pve/user.cfg 
+
+
+  GNU nano 7.2                    /etc/pve/user.cfg                             
+user:root@pam:1:0:::mail@mail.com::
+user:nico@pam:1:0:::maisouicestclaire@mail.com::
+
+```
+  
+![perm](/image/image.png)
+
+
+### 6. allocation de l'espace
