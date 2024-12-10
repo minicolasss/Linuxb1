@@ -82,3 +82,127 @@ user:nico@pam:1:0:::maisouicestclaire@mail.com::
 
 
 ### 6. allocation de l'espace
+
+
+
+
+
+```zsh
+root@hv1-michaux:/home/nico# apt-get install lvm2
+
+```
+
+j'ai eu un probleme de PATCH donc voila les commande efectuer pour debug.  
+
+```zsh
+root@hv1-michaux:/home/nico# echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+root@hv1-michaux:/home/nico# export PATH=$PATH:/sbin
+```
+
+Ensuite j'ai pu repredre le travail
+
+```zsh
+root@hv1-michaux:/home/nico# pvcreate /dev/sdb
+  Physical volume "/dev/sdb" successfully created.
+root@hv1-michaux:/home/nico# pvcreate /dev/sdc
+  Physical volume "/dev/sdc" successfully created.
+```
+
+```zsh
+root@hv1-michaux:/home/nico# pvdisplay
+
+
+  "/dev/sdb" is a new physical volume of "100.00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/sdb
+  VG Name               
+  PV Size               100.00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               KDZvCa-sQSp-05nG-SJOg-iKLM-Ls9L-UvQZN8
+   
+  "/dev/sdc" is a new physical volume of "100.00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/sdc
+  VG Name               
+  PV Size               100.00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               bG8K56-eo57-hhtx-sWLj-IHT9-JgUE-4bWpqR
+
+```
+
+```zsh
+root@hv1-michaux:/home/nico# vgcreate VG01 /dev/sdb
+  Volume group "VG01" successfully created
+root@hv1-michaux:/home/nico# vgcreate VG02 /dev/sdc
+  Volume group "VG02" successfully created
+
+root@hv1-michaux:/home/nico# vgdisplay
+  --- Volume group ---
+  VG Name               VG02
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <100.00 GiB
+  PE Size               4.00 MiB
+  Total PE              25599
+  Alloc PE / Size       0 / 0   
+  Free  PE / Size       25599 / <100.00 GiB
+  VG UUID               3xyFqF-x58k-ZBcM-oyww-5wBa-X2Ms-Y6iutN
+   
+  --- Volume group ---
+  VG Name               VG01
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <100.00 GiB
+  PE Size               4.00 MiB
+  Total PE              25599
+  Alloc PE / Size       0 / 0   
+  Free  PE / Size       25599 / <100.00 GiB
+  VG UUID               89f8Os-aRj7-8hTw-8SIx-WBpV-q4iD-zl6c47
+
+```
+
+```zsh
+root@hv1-michaux:/home/nico# lvcreate -n VPN -L 30g VG01
+  Logical volume "VPN" created.
+root@hv1-michaux:/home/nico# lvcreate -n Gestionnaire -L 10g VG01
+  Logical volume "Gestionnaire" created.
+root@hv1-michaux:/home/nico# lvcreate -n Transfere -L 50g VG01
+  Logical volume "Transfere" created.
+
+root@hv1-michaux:/home/nico# ls -al /dev/VG01/
+total 0
+drwxr-xr-x  2 root root  100 Dec 10 10:34 .
+drwxr-xr-x 20 root root 4360 Dec 10 10:34 ..
+lrwxrwxrwx  1 root root    7 Dec 10 10:33 Gestionnaire -> ../dm-7
+lrwxrwxrwx  1 root root    7 Dec 10 10:34 Transfere -> ../dm-8
+lrwxrwxrwx  1 root root    7 Dec 10 10:33 VPN -> ../dm-6
+```
