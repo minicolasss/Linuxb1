@@ -206,3 +206,62 @@ lrwxrwxrwx  1 root root    7 Dec 10 10:33 Gestionnaire -> ../dm-7
 lrwxrwxrwx  1 root root    7 Dec 10 10:34 Transfere -> ../dm-8
 lrwxrwxrwx  1 root root    7 Dec 10 10:33 VPN -> ../dm-6
 ```
+
+```zsh
+root@hv1-michaux:/home/nico# mkfs -t ext4 /dev/VG01/VPN
+mke2fs 1.47.0 (5-Feb-2023)
+Discarding device blocks: done                            
+Creating filesystem with 7864320 4k blocks and 1966080 inodes
+Filesystem UUID: cdd79720-6a0c-42b3-be7c-8d4af5b551f3
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+	4096000
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done 
+
+root@hv1-michaux:/home/nico# mkfs -t ext4 /dev/VG01/Gestionnaire
+...
+
+root@hv1-michaux:/home/nico# mkfs -t ext4 /dev/VG01/Transfere 
+...
+
+```
+
+
+```zsh
+root@hv1-michaux:/# mkdir /VPN
+root@hv1-michaux:/# mkdir /Gestionnaire
+root@hv1-michaux:/# mkdir /Transfere
+root@hv1-michaux:/# ls
+Gestionnaire  VPN  boot  etc   lib    lost+found  mnt  proc  run   srv	tmp  var
+Transfere     bin  dev	 home  lib64  media	  opt  root  sbin  sys	usr
+```
+
+```zsh
+root@hv1-michaux:/# mount /dev/VG01/Gestionnaire /Gestionnaire/
+     
+root@hv1-michaux:/# mount /dev/VG01/Transfere  /Transfere/
+
+root@hv1-michaux:/# mount /dev/VG01/VPN /VPN/
+```
+
+vérification
+
+```zsh
+root@hv1-michaux:/# df -h
+Filesystem                     Size  Used Avail Use% Mounted on
+udev                           3.8G     0  3.8G   0% /dev
+tmpfs                          785M  1.1M  784M   1% /run
+/dev/mapper/pve-root           8.4G  3.5G  4.5G  44% /
+tmpfs                          3.9G   46M  3.8G   2% /dev/shm
+tmpfs                          5.0M     0  5.0M   0% /run/lock
+/dev/fuse                      128M   16K  128M   1% /etc/pve
+tmpfs                          785M     0  785M   0% /run/user/0
+tmpfs                          785M     0  785M   0% /run/user/1000
+/dev/mapper/VG01-Gestionnaire  9.8G   24K  9.3G   1% /Gestionnaire
+/dev/mapper/VG01-Transfere      49G   24K   47G   1% /Transfere
+/dev/mapper/VG01-VPN            30G   24K   28G   1% /VPN
+```
