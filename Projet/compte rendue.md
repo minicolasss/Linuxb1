@@ -232,36 +232,38 @@ root@hv1-michaux:/home/nico# mkfs -t ext4 /dev/VG01/Transfere
 
 
 ```zsh
-root@hv1-michaux:/# mkdir /VPN
-root@hv1-michaux:/# mkdir /Gestionnaire
-root@hv1-michaux:/# mkdir /Transfere
-root@hv1-michaux:/# ls
-Gestionnaire  VPN  boot  etc   lib    lost+found  mnt  proc  run   srv	tmp  var
-Transfere     bin  dev	 home  lib64  media	  opt  root  sbin  sys	usr
-```
+root@hv1-michaux:/# mkdir /mnt/Gestionnaire
+root@hv1-michaux:/# mount /dev/mapper/VG01-Gestionnaire /mnt/Gestionnaire
+root@hv1-michaux:/# mkdir /mnt/Transfere
+root@hv1-michaux:/# mount /dev/mapper/VG01-Transfere /mnt/Transfere/
+root@hv1-michaux:/# mkdir /mnt/VPN
+root@hv1-michaux:/# mount /dev/mapper/VG01-VPN /mnt/VPN/
 
-```zsh
-root@hv1-michaux:/# mount /dev/VG01/Gestionnaire /Gestionnaire/
-     
-root@hv1-michaux:/# mount /dev/VG01/Transfere  /Transfere/
-
-root@hv1-michaux:/# mount /dev/VG01/VPN /VPN/
 ```
 
 vérification
 
 ```zsh
-root@hv1-michaux:/# df -h
-Filesystem                     Size  Used Avail Use% Mounted on
-udev                           3.8G     0  3.8G   0% /dev
-tmpfs                          785M  1.1M  784M   1% /run
-/dev/mapper/pve-root           8.4G  3.5G  4.5G  44% /
-tmpfs                          3.9G   46M  3.8G   2% /dev/shm
-tmpfs                          5.0M     0  5.0M   0% /run/lock
-/dev/fuse                      128M   16K  128M   1% /etc/pve
-tmpfs                          785M     0  785M   0% /run/user/0
-tmpfs                          785M     0  785M   0% /run/user/1000
-/dev/mapper/VG01-Gestionnaire  9.8G   24K  9.3G   1% /Gestionnaire
-/dev/mapper/VG01-Transfere      49G   24K   47G   1% /Transfere
-/dev/mapper/VG01-VPN            30G   24K   28G   1% /VPN
+root@hv1-michaux:/# lsblk
+NAME                 MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda                    8:0    0   20G  0 disk 
+|-sda1                 8:1    0 1007K  0 part 
+|-sda2                 8:2    0  512M  0 part 
+`-sda3                 8:3    0 19.5G  0 part 
+  |-pve-swap         252:0    0  2.4G  0 lvm  [SWAP]
+  |-pve-root         252:1    0  8.6G  0 lvm  /
+  |-pve-data_tmeta   252:2    0    1G  0 lvm  
+  | `-pve-data-tpool 252:4    0  6.6G  0 lvm  
+  |   `-pve-data     252:5    0  6.6G  1 lvm  
+  `-pve-data_tdata   252:3    0  6.6G  0 lvm  
+    `-pve-data-tpool 252:4    0  6.6G  0 lvm  
+      `-pve-data     252:5    0  6.6G  1 lvm  
+sdb                    8:16   0  100G  0 disk 
+|-VG01-VPN           252:6    0   30G  0 lvm  /mnt/VPN
+|-VG01-Gestionnaire  252:7    0   10G  0 lvm  /mnt/Gestionnaire
+`-VG01-Transfere     252:8    0   50G  0 lvm  /mnt/Transfere
+sdc                    8:32   0  100G  0 disk 
+`-VG02-Backup        252:9    0   60G  0 lvm  /backup
+sr0                   11:0    1  1.3G  0 rom  
+
 ```
