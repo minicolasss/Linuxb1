@@ -1,12 +1,21 @@
 # COMPTE RENDUE TP
 
 ## SOMMAIRE
+0. update upgrade
 1. CHANGEMENT MOT DE PASSE ET CREATION USER
 2. DESACTIVATION ROOT SSH
 3. CLEF SSH
 4. INSTALLATION NGINX
 5. INSTALLATION FAILBAN
 6. INSTALLATION UFW
+
+### 0. update upgrade
+
+apt update
+apt upgrade
+apt-get update
+apt-get upgrade
+
 
 ### 1. CHANGEMENT MOT DE PASSE ET CREATION USER
 
@@ -118,15 +127,15 @@ root@debian:/var/log# systemctl status ufw
 
 ```zsh
 
-root@debian:/var/log# sudo ufw allow ssh
-root@debian:/var/log# sudo ufw allow 22
-root@debian:/var/log# sudo ufw allow 'Nginx HTTP'
+root@debian:/var/log#  ufw allow ssh
+root@debian:/var/log#  ufw allow 22
+root@debian:/var/log#  ufw allow 'Nginx HTTP'
 
-root@debian:/var/log# sudo ufw enable
+root@debian:/var/log#  ufw enable
 ```
 
 ```zsh
-root@debian:/var/log# sudo ufw status verbose
+root@debian:/var/log#  ufw status verbose
 Status: active
 Logging: on (low)
 Default: deny (incoming), allow (outgoing), disabled (routed)
@@ -140,4 +149,17 @@ To                         Action      From
 22/tcp (v6)                ALLOW IN    Anywhere (v6)             
 22 (v6)                    ALLOW IN    Anywhere (v6)             
 80/tcp (Nginx HTTP (v6))   ALLOW IN    Anywhere (v6)
+```
+
+
+### 7. Rsync
+
+```zsh
+root@debian:/home# apt install rsync
+
+root@debian:/home# mkdir backup
+root@debian:/home# ls
+backup	deploy	nico
+root@debian:/home# rsync -avz /var/www/html /var/log /home/backup/
+
 ```
