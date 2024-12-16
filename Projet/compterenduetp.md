@@ -8,6 +8,8 @@
 4. INSTALLATION NGINX
 5. INSTALLATION FAILBAN
 6. INSTALLATION UFW
+7. Rsync
+8. CRONTAB
 
 ### 0. update upgrade
 
@@ -161,5 +163,17 @@ root@debian:/home# mkdir backup
 root@debian:/home# ls
 backup	deploy	nico
 root@debian:/home# rsync -avz /var/www/html /var/log /home/backup/
+
+```
+
+
+ ### 8. CRONTAB
+
+ ```zsh
+root@debian:/home/backup# crontab -e
+
+...
+0 12 * * * rsync -avz --delete /var/www/html /var/log /home/backup/
+
 
 ```
