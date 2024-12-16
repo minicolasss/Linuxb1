@@ -78,7 +78,7 @@ user:nico@pam:1:0:::maisouicestclaire@mail.com::
 
 ```
   
-![perm](/image/image.png)
+![perm](/image/user.png)
 
 
 ### 6. allocation de l'espace
