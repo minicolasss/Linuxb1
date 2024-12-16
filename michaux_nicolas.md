@@ -10,27 +10,30 @@
 6. INSTALLATION UFW
 7. Rsync
 8. CRONTAB
+9. Rkhunter 
+10. ALERTE SSH
 
 ### 0. update upgrade
 
+```
 apt update
 apt upgrade
 apt-get update
 apt-get upgrade
-
+```
 
 ### 1. CHANGEMENT MOT DE PASSE ET CREATION USER
 
 
 ```zsh
 root@debian:~# passwd
-mot de passe LaVie 
+mot de passe : -L!46zYi6G2Pk_/3Ven8zU;_2a
 
 root@debian:~# adduser nico
 root@debian:~# usermod -aG sudo nico          
 root@debian:~# groups nico          
 nico : nico sudo users
-mot de passe NicoLaVie
+mot de passe : e!CvwB<5?Q+q9K9w7<=Q89jy7E
 ```
 
 
@@ -175,5 +178,60 @@ root@debian:/home/backup# crontab -e
 ...
 0 12 * * * rsync -avz --delete /var/www/html /var/log /home/backup/
 
+```
 
+l'ideale serait de transferer la backup sur un autre serveur pour cela on pourait utiliser :
+
+```zsh
+0 13 * * * /usr/bin/rsync -avz home/backup backupeur@serveurbackup:/backup/serveurNGINX/
+```
+
+### 9. Rkhunter 
+
+```zsh
+root@debian:~# apt install rkhunter
+```
+
+```zsh
+
+root@debian:~# nano /etc/default/rkhunter
+
+
+CRON_DAILY_RUN="yes"
+REPORT_EMAIL="michaux.nicolas33@gmail.com"
+
+```
+
+### 10. ALERTE SSH
+
+```zsh
+root@debian:~# apt-get install -y mailutils
+```
+
+```zsh
+
+root@debian:~# nano /usr/local/bin/ssh_login_notify.sh
+
+
+#!/bin/bash
+
+# Change this to your email address
+recipient="michaux.nicolas33@gmail.com"
+subject="SSH Login Alert"
+message="SSH login detected on $(hostname) at $(date) by user $(whoami) from $(echo $SSH_CONN>
+
+echo "$message" | mail -s "$subject" "$recipient"
+```
+
+```zsh
+root@debian:~# chmod +x /usr/local/bin/ssh_login_notify.sh
+```
+
+
+```zsh
+root@debian:~# nano /etc/ssh/sshd_config
+
+
+...
+ForceCommand /usr/local/bin/ssh_login_notify.sh; $SSH_ORIGINAL_COMMAND
 ```
