@@ -5,6 +5,8 @@
 2. DESACTIVATION ROOT SSH
 3. CLEF SSH
 4. INSTALLATION NGINX
+5. INSTALLATION FAILBAN
+6. INSTALLATION UFW
 
 ### 1. CHANGEMENT MOT DE PASSE ET CREATION USER
 
@@ -49,11 +51,6 @@ root@wilfart.fr's password:
 ### 3. CLEF SSH
 
 ```zsh
-nico@debian:~$ ssh-keygen
-Generating public/private rsa key pair.
-Enter file in which to save the key (/home/nico/.ssh/id_rsa): 
-
-
 ┌─[nico@parrot]─[~]
 └──╼ $ssh-keygen
 Generating public/private rsa key pair.
@@ -80,4 +77,41 @@ root@debian:/home/nico# systemctl status nginx
 ● nginx.service - A high performance web server and a reverse proxy server
      Loaded: loaded (/lib/systemd/system/nginx.service; enabled; preset: enable>
      Active: active (running) since Mon 2024-12-16 10:24:06 CET; 1min 37s ago
+```
+
+### 5. INSTALLATION FAILBAN
+
+```zsh
+root@debian:/home/nico# apt install fail2ban
+root@debian:/home/nico# apt install rsyslog
+
+```
+
+```zsh
+[sshd]
+
+
+port    = ssh
+logpath = /var/log/auth.log
+backend = %(sshd_backend)s
+```
+
+```zsh
+root@debian:/home/nico# systemctl restart fail2ban
+root@debian:/home/nico# systemctl status fail2ban
+● fail2ban.service - Fail2Ban Service
+     Loaded: loaded (/lib/systemd/system/fail2ban.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2024-12-16 10:41:05 CET; 6s ago
+```
+
+### 6. INSTALLATION UFW
+
+```zsh
+
+root@debian:/var/log# apt-get install ufw
+
+root@debian:/var/log# systemctl status ufw
+● ufw.service - Uncomplicated firewall
+     Loaded: loaded (/lib/systemd/system/ufw.service; enabled; preset: enabled)
+     Active: active (exited) since Mon 2024-12-16 10:52:20 CET; 1s ago
 ```
